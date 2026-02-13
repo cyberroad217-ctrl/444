@@ -8,7 +8,7 @@ export const COLORS = {
   neutral: '#F8FAFC'
 };
 
-export const MARKETPLACE_TOTAL_PAGES = 54883237565;
+export const MARKETPLACE_TOTAL_PAGES = 548832375689;
 export const BLOG_TOTAL_PAGES = 364494774;
 
 export const ICONS = {
