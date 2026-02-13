@@ -1,8 +1,8 @@
 
 import React, { useEffect, useState } from 'react';
-import { ICONS } from '../constants';
-import { PageType } from '../types';
-import { generateProductivityImage } from '../services/geminiService';
+import { ICONS } from '../constants.tsx';
+import { PageType } from '../types.ts';
+import { generateProductivityImage } from '../services/geminiService.ts';
 
 interface HomePageProps {
   onNavigate: (page: PageType) => void;

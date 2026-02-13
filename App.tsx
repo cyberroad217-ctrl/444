@@ -1,13 +1,13 @@
 
 import React, { useState, useEffect } from 'react';
-import { PageType } from './types';
-import Header from './components/Header';
-import Footer from './components/Footer';
-import HomePage from './pages/HomePage';
-import MarketplacePage from './pages/MarketplacePage';
-import BlogPage from './pages/BlogPage';
-import StorePage from './pages/StorePage';
-import AboutPage from './pages/AboutPage';
+import { PageType } from './types.ts';
+import Header from './components/Header.tsx';
+import Footer from './components/Footer.tsx';
+import HomePage from './pages/HomePage.tsx';
+import MarketplacePage from './pages/MarketplacePage.tsx';
+import BlogPage from './pages/BlogPage.tsx';
+import StorePage from './pages/StorePage.tsx';
+import AboutPage from './pages/AboutPage.tsx';
 
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<PageType>(PageType.HOME);
