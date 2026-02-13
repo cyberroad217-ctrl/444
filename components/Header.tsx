@@ -19,16 +19,16 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 glass border-b border-slate-100">
-      <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
         <div 
-          className="text-2xl font-black tracking-tighter cursor-pointer flex items-center gap-2" 
+          className="text-xl font-black tracking-tighter cursor-pointer flex items-center gap-1.5" 
           onClick={() => onNavigate(PageType.HOME)}
         >
           <span className="text-blue-600">444</span>
           <span className="w-1.5 h-1.5 rounded-full bg-blue-600"></span>
         </div>
         
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-6">
           {navItems.map((item) => (
             <button
               key={item.id}
@@ -36,7 +36,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
                 onNavigate(item.id);
                 window.location.hash = item.id;
               }}
-              className={`text-sm font-medium transition-colors ${
+              className={`text-[13px] font-semibold transition-colors ${
                 currentPage === item.id 
                   ? 'text-blue-600' 
                   : 'text-slate-500 hover:text-blue-600'
@@ -45,12 +45,21 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
               {item.label}
             </button>
           ))}
+          <a 
+            href="https://productivityprotocol.netlify.app/#/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-[13px] font-semibold text-slate-500 hover:text-blue-600 flex items-center gap-1"
+          >
+            Protocol Hub
+            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+          </a>
         </nav>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
           <button 
             onClick={() => onNavigate(PageType.STORE)}
-            className="bg-blue-600 text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-blue-700 transition-all shadow-lg shadow-blue-200"
+            className="bg-blue-600 text-white px-4 py-1.5 rounded-lg text-xs font-bold hover:bg-blue-700 transition-all shadow-md shadow-blue-100"
           >
             Get E-Book
           </button>
