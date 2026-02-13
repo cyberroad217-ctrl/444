@@ -76,7 +76,7 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               )}
               <div className="absolute bottom-4 left-4 right-4 p-3 bg-slate-900/90 backdrop-blur-xl rounded-xl border border-white/10 hidden md:block">
                 <div className="font-mono text-[7px] text-blue-400 space-y-0.5">
-                  {logs.map((l, i) => <div key={i}>> {l}</div>)}
+                  {logs.map((l, i) => <div key={i}>&gt; {l}</div>)}
                 </div>
               </div>
             </div>
