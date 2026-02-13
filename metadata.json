@@ -1,0 +1,8 @@
+{
+  "name": "444 Productivity",
+  "description": "A cutting-edge productivity platform and marketplace powered by AI Agents, featuring a deep-learning blog and premium digital assets.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
