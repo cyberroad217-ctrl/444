@@ -10,11 +10,7 @@ interface HomePageProps {
 
 const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
   const [heroImage, setHeroImage] = useState<string | null>(null);
-  const [scheduleInput, setScheduleInput] = useState('');
-  const [auditResult, setAuditResult] = useState<AuditResult | null>(null);
-  const [isAuditing, setIsAuditing] = useState(false);
   const [logs, setLogs] = useState<string[]>(["Initializing 444 Protocol...", "Awaiting user input..."]);
-  const logEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     let mounted = true;
@@ -26,20 +22,11 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
 
     const logInterval = setInterval(() => {
       const msgs = ["Optimizing delta...", "Neural sync active", "Caching vector data", "Syncing AGI node", "Encryption verified"];
-      setLogs(prev => [...prev.slice(-5), msgs[Math.floor(Math.random()*msgs.length)]]);
+      setLogs(prev => [...prev.slice(-4), msgs[Math.floor(Math.random()*msgs.length)]]);
     }, 3000);
 
     return () => { mounted = false; clearInterval(logInterval); };
   }, []);
-
-  const handleAudit = async () => {
-    if (!scheduleInput.trim()) return;
-    setIsAuditing(true);
-    setAuditResult(null);
-    const result = await analyzeSchedule(scheduleInput);
-    setAuditResult(result);
-    setIsAuditing(false);
-  };
 
   const curriculum = [
     { title: "The Logic Layer", desc: "Setting up your digital node and faceless identity." },
@@ -64,7 +51,10 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               The 444 Framework is the world's first faceless, AGI-powered system for digital architects.
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
-              <button onClick={() => onNavigate(PageType.STORE)} className="bg-slate-900 text-white px-6 py-3 rounded-lg text-sm font-black hover:bg-blue-600 transition-all shadow-lg active:scale-95">
+              <button 
+                onClick={() => onNavigate(PageType.STORE)} 
+                className="bg-slate-900 text-white px-6 py-3 rounded-lg text-sm font-black hover:bg-blue-600 transition-all shadow-lg active:scale-95"
+              >
                 Download Blueprint
               </button>
               <a 
@@ -78,7 +68,7 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             </div>
           </div>
           <div className="relative">
-            <div className="aspect-[4/3] bg-slate-100 rounded-3xl overflow-hidden shadow-lg border border-white relative group">
+            <div className="aspect-[4/3] bg-slate-100 rounded-2xl overflow-hidden shadow-lg border border-white relative group">
               {heroImage ? (
                 <img src={heroImage} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[20s]" alt="" />
               ) : (
@@ -94,7 +84,7 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         </div>
       </section>
 
-      {/* Trust & Verification Strip */}
+      {/* Trust Strip */}
       <section className="py-6 border-y border-slate-50 bg-white">
         <div className="max-w-7xl mx-auto px-4 flex flex-wrap justify-center gap-8 opacity-40 grayscale items-center">
            <div className="flex items-center gap-2 font-black text-[9px] tracking-widest uppercase"><ICONS.Zap className="w-3 h-3"/> SSL Encrypted</div>
@@ -104,16 +94,16 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         </div>
       </section>
 
-      {/* Curriculum Section */}
+      {/* Curriculum */}
       <section className="py-16 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-12">
+          <div className="text-center mb-10">
             <h2 className="text-2xl font-black mb-2 tracking-tight">The 444 Syllabus</h2>
-            <p className="text-slate-500 text-xs">Inside the 250-page digital architect handbook.</p>
+            <p className="text-slate-500 text-[11px] font-bold uppercase tracking-widest">Architectural Foundation Modules</p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
             {curriculum.map((item, i) => (
-              <div key={i} className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-all">
+              <div key={i} className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-all">
                 <div className="text-blue-600 font-black text-2xl mb-3">0{i+1}</div>
                 <h3 className="text-base font-black mb-1.5 tracking-tight">{item.title}</h3>
                 <p className="text-[11px] text-slate-500 leading-relaxed">{item.desc}</p>
@@ -123,39 +113,42 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         </div>
       </section>
 
-      {/* Direct Conversion Section */}
+      {/* E-Book Pitch */}
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <div className="bg-slate-900 rounded-[2rem] p-8 lg:p-12 text-white relative overflow-hidden">
              <div className="absolute top-0 right-0 p-6 opacity-5 pointer-events-none">
-                <ICONS.TrendingUp className="w-48 h-48" />
+                <ICONS.BookOpen className="w-48 h-48" />
              </div>
              <div className="relative z-10 grid lg:grid-cols-2 gap-10 items-center">
                 <div>
                   <h2 className="text-3xl lg:text-4xl font-black mb-5 leading-tight tracking-tight">Ready to integrate the <span className="text-blue-500">Source Code?</span></h2>
                   <p className="text-base text-slate-400 mb-8 leading-relaxed">
-                    Stop building "personal brands." Start building autonomous logic nodes. The Blueprint is your manual for the new economy.
+                    Stop building "personal brands." Start building autonomous logic nodes. The Blueprint is your manual for the new digital economy.
                   </p>
                   <div className="flex flex-col sm:flex-row gap-4">
-                    <button onClick={() => onNavigate(PageType.STORE)} className="bg-blue-600 text-white px-6 py-4 rounded-xl text-base font-black hover:bg-white hover:text-blue-600 transition-all shadow-lg active:scale-95">
-                      Access Blueprint — $29.99
+                    <button onClick={() => onNavigate(PageType.STORE)} className="bg-blue-600 text-white px-6 py-3.5 rounded-lg text-sm font-black hover:bg-white hover:text-blue-600 transition-all shadow-lg active:scale-95">
+                      Get The E-Book — $29.99
                     </button>
-                    <div className="flex items-center gap-3 text-slate-500">
-                      <div className="flex -space-x-1.5">
-                        {[1,2,3].map(i => <div key={i} className="w-6 h-6 rounded-full border border-slate-900 bg-slate-800 flex items-center justify-center text-[8px] font-bold">A{i}</div>)}
-                      </div>
-                      <span className="text-[10px] font-bold uppercase tracking-widest">+44k Architects</span>
-                    </div>
+                    <a 
+                      href="https://productivityprotocol.netlify.app/#/" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-3 text-slate-500 hover:text-white transition-colors"
+                    >
+                      <span className="text-[10px] font-bold uppercase tracking-widest">Visit Protocol Hub</span>
+                      <ICONS.ChevronRight className="w-4 h-4" />
+                    </a>
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   {[
-                    {h: "Instant", p: "Deployment"},
-                    {h: "Lifetime", p: "Logic Updates"},
-                    {h: "100%", p: "Faceless Path"},
-                    {h: "AGI", p: "Native Hook"}
+                    {h: "Instant", p: "Access"},
+                    {h: "Lifetime", p: "Updates"},
+                    {h: "100%", p: "Faceless"},
+                    {h: "AGI", p: "Driven"}
                   ].map((item, i) => (
-                    <div key={i} className="bg-white/5 border border-white/10 p-5 rounded-xl backdrop-blur-sm">
+                    <div key={i} className="bg-white/5 border border-white/10 p-5 rounded-lg backdrop-blur-sm">
                       <h4 className="text-xl font-black mb-0.5 text-white">{item.h}</h4>
                       <p className="text-[8px] text-slate-400 uppercase tracking-widest font-bold">{item.p}</p>
                     </div>

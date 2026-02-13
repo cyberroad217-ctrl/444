@@ -1,7 +1,6 @@
 
 import React from 'react';
 import { PageType } from '../types';
-import { COLORS } from '../constants';
 
 interface HeaderProps {
   currentPage: PageType;
@@ -36,7 +35,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
                 onNavigate(item.id);
                 window.location.hash = item.id;
               }}
-              className={`text-[13px] font-semibold transition-colors ${
+              className={`text-[12px] font-bold tracking-tight transition-colors ${
                 currentPage === item.id 
                   ? 'text-blue-600' 
                   : 'text-slate-500 hover:text-blue-600'
@@ -49,17 +48,17 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
             href="https://productivityprotocol.netlify.app/#/" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="text-[13px] font-semibold text-slate-500 hover:text-blue-600 flex items-center gap-1"
+            className="text-[12px] font-bold tracking-tight text-slate-500 hover:text-blue-600 flex items-center gap-1 group"
           >
             Protocol Hub
-            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+            <svg className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
           </a>
         </nav>
 
         <div className="flex items-center gap-3">
           <button 
             onClick={() => onNavigate(PageType.STORE)}
-            className="bg-blue-600 text-white px-4 py-1.5 rounded-lg text-xs font-bold hover:bg-blue-700 transition-all shadow-md shadow-blue-100"
+            className="bg-blue-600 text-white px-4 py-1.5 rounded-lg text-xs font-black hover:bg-blue-700 transition-all shadow-md shadow-blue-100 active:scale-95"
           >
             Get E-Book
           </button>
