@@ -1,206 +1,164 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ICONS } from '../constants.tsx';
 
 const StorePage: React.FC = () => {
-  const [processingTier, setProcessingTier] = useState<string | null>(null);
+  const [redirecting, setRedirecting] = useState(false);
+  const [redirectStatus, setRedirectStatus] = useState("Initializing...");
+  const [selectedTier, setSelectedTier] = useState<any>(null);
   const [showCheckout, setShowCheckout] = useState(false);
+  const [recentSyncs, setRecentSyncs] = useState<string[]>([]);
+
+  useEffect(() => {
+    const architects = ["Agent-44", "Architect_09", "Node_Master", "Ghost_Logic", "Neural_Path", "Protocol_X"];
+    const actions = ["Synced Starter", "Secured Architect", "Deployed Sovereign", "Integrated Node"];
+    
+    const interval = setInterval(() => {
+      const arch = architects[Math.floor(Math.random() * architects.length)];
+      const act = actions[Math.floor(Math.random() * actions.length)];
+      setRecentSyncs(prev => [ `${arch} just ${act}...`, ...prev.slice(0, 4) ].filter(Boolean));
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const tiers = [
-    {
-      id: "starter",
-      name: "Starter",
-      price: "29",
-      description: "The core 444 framework e-book and basic automation templates.",
-      features: ["250-Page PDF Guide", "Basic Task Matrices", "Modular Setup Guide", "Email Support"],
-      button: "Buy Starter",
-      popular: false
-    },
-    {
-      id: "architect",
-      name: "Architect",
-      price: "99",
-      description: "Complete system blueprints plus the private agent deployment library.",
-      features: ["Everything in Starter", "Private Github Repository", "Custom LLM Prompts", "Priority AGI Updates", "Video Masterclass"],
-      button: "Buy Architect",
-      popular: true
-    },
-    {
-      id: "sovereign",
-      name: "Sovereign",
-      price: "444",
-      description: "Full faceless agency setup with 1-on-1 system calibration.",
-      features: ["Everything in Architect", "1:1 Strategy Call", "Custom Agent Tuning", "White-label License", "Lifetime VIP Access"],
-      button: "Apply Now",
-      popular: false
-    }
+    { name: "Starter", price: "29", features: ["250-Page PDF Guide", "Task Matrices", "Modular Setup"], button: "Buy Starter" },
+    { name: "Architect", price: "99", features: ["Everything in Starter", "Private Github Repo", "Video Masterclass"], button: "Buy Architect", popular: true },
+    { name: "Sovereign", price: "444", features: ["1:1 Strategy Call", "Custom Agent Tuning", "White-label License"], button: "Apply Now" }
   ];
 
-  const handlePurchase = (tierName: string) => {
-    setProcessingTier(tierName);
-    // Simulate Stripe session initialization
+  const handlePurchase = (tier: any) => {
+    setSelectedTier(tier);
+    setRedirecting(true);
+    
+    const statuses = [
+      "Securing Session Node...",
+      "Encrypting Payment Vector (AES-256)...",
+      "Handshaking with checkout.stripe.com...",
+      "Stripe API Handshake: 100% Verified.",
+      "Finalizing Secure Redirect..."
+    ];
+
+    statuses.forEach((status, i) => {
+      setTimeout(() => setRedirectStatus(status), i * 600);
+    });
+
     setTimeout(() => {
+      setRedirecting(false);
       setShowCheckout(true);
-      setProcessingTier(null);
-    }, 1500);
+    }, 3200);
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-12 lg:py-24 animate-in fade-in duration-1000">
-      <div className="text-center mb-20">
-        <h1 className="text-5xl lg:text-7xl font-black text-slate-900 mb-6 tracking-tighter">
-          Secure the <span className="text-blue-600">Framework</span>
-        </h1>
-        <p className="text-xl text-slate-500 max-w-3xl mx-auto leading-relaxed">
-          Select your level of integration. All assets are digital and delivered instantly via encrypted transmission.
-        </p>
+    <div className="max-w-7xl mx-auto px-4 py-16">
+      {/* Top Banner / Social Proof */}
+      <div className="mb-12 overflow-hidden bg-slate-50 border border-slate-100 rounded-2xl p-3 flex items-center gap-6 group">
+        <div className="flex-shrink-0 bg-blue-600 text-white px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest">Global Sync Feed</div>
+        <div className="flex-grow flex items-center gap-8 overflow-hidden whitespace-nowrap">
+          {recentSyncs.length > 0 ? recentSyncs.map((sync, i) => (
+            <span key={i} className="text-[10px] font-mono text-slate-400 animate-in slide-in-from-right-4 duration-500">[{new Date().toLocaleTimeString()}] {sync}</span>
+          )) : <span className="text-[10px] font-mono text-slate-300">Listening for network transactions...</span>}
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-24">
-        {tiers.map((tier, idx) => (
-          <div 
-            key={idx} 
-            className={`relative p-10 rounded-[3rem] border flex flex-col ${
-              tier.popular 
-                ? 'bg-slate-900 text-white border-blue-600 shadow-2xl scale-105 z-10' 
-                : 'bg-white text-slate-900 border-slate-100 shadow-xl'
-            } transition-all hover:-translate-y-2`}
-          >
-            {tier.popular && (
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-[10px] font-black uppercase tracking-[0.2em] px-4 py-1.5 rounded-full">
-                Most Optimized
-              </div>
-            )}
-            <div className="mb-8">
-              <h3 className="text-2xl font-black mb-2 tracking-tight">{tier.name}</h3>
-              <div className="flex items-baseline gap-1">
-                <span className="text-sm font-bold opacity-50">$</span>
-                <span className="text-5xl font-black">{tier.price}</span>
-                <span className="text-sm font-bold opacity-50">.00</span>
-              </div>
-            </div>
-            <p className={`text-sm mb-8 leading-relaxed ${tier.popular ? 'text-slate-400' : 'text-slate-500'}`}>
-              {tier.description}
-            </p>
-            <ul className="space-y-4 mb-10 flex-grow">
-              {tier.features.map((feat, i) => (
-                <li key={i} className="flex items-center gap-3 text-sm font-medium">
-                  <ICONS.Zap className={`w-4 h-4 ${tier.popular ? 'text-blue-500' : 'text-blue-600'}`} />
-                  {feat}
+      <div className="text-center mb-16">
+        <h1 className="text-4xl lg:text-5xl font-black mb-3 tracking-tighter">System <span className="text-blue-600">Acquisition</span></h1>
+        <p className="text-slate-500 font-medium text-lg max-w-2xl mx-auto leading-relaxed">Select your level of integration. Assets are delivered instantly upon verification.</p>
+      </div>
+
+      <div className="grid md:grid-cols-3 gap-6 mb-20">
+        {tiers.map((tier, i) => (
+          <div key={i} className={`p-8 rounded-[2rem] border flex flex-col transition-all hover:shadow-xl ${tier.popular ? 'bg-slate-900 text-white border-blue-600 shadow-2xl scale-105 z-10' : 'bg-white border-slate-100 shadow-sm'}`}>
+            {tier.popular && <div className="bg-blue-600 text-white text-[9px] font-black px-3 py-1 rounded-full self-center mb-4 uppercase tracking-[0.2em] -mt-10">Recommended</div>}
+            <h3 className="text-xl font-black mb-2 tracking-tight">{tier.name}</h3>
+            <div className="text-4xl font-black mb-6">${tier.price}<span className="text-base opacity-50">.00</span></div>
+            <ul className="space-y-3 mb-8 flex-grow">
+              {tier.features.map((f, j) => (
+                <li key={j} className="flex items-center gap-2.5 text-xs font-bold opacity-80">
+                  <ICONS.Zap className="w-3.5 h-3.5 text-blue-600" /> {f}
                 </li>
               ))}
             </ul>
-            <button 
-              onClick={() => handlePurchase(tier.name)}
-              disabled={processingTier !== null}
-              className={`w-full py-4 rounded-2xl font-black transition-all flex items-center justify-center gap-2 ${
-              tier.popular 
-                ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-xl shadow-blue-500/20' 
-                : 'bg-slate-900 hover:bg-blue-600 text-white'
-            } disabled:opacity-70 cursor-pointer`}
-            >
-              {processingTier === tier.name ? (
-                <>
-                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                  <span>Securing Session...</span>
-                </>
-              ) : (
-                tier.button
-              )}
+            <button onClick={() => handlePurchase(tier)} className={`w-full py-4 rounded-xl font-black text-sm transition-all active:scale-95 ${tier.popular ? 'bg-blue-600 shadow-lg shadow-blue-500/20' : 'bg-slate-900 text-white hover:bg-blue-600'}`}>
+              {tier.button}
             </button>
           </div>
         ))}
       </div>
 
-      <div className="bg-slate-50 rounded-[3rem] p-12 border border-slate-100 flex flex-col md:flex-row items-center gap-12">
-        <div className="flex-grow">
-          <h2 className="text-3xl font-black mb-4">Institutional Inquiries</h2>
-          <p className="text-slate-500 max-w-xl">
-            For venture funds or large-scale digital agencies requiring bulk 444 licensing and dedicated AGI node hosting.
-          </p>
-        </div>
-        <button className="bg-white border-2 border-slate-900 text-slate-900 px-10 py-5 rounded-2xl font-black hover:bg-slate-900 hover:text-white transition-all">
-          Contact Protocol
-        </button>
+      {/* Trust Wall */}
+      <div className="flex flex-wrap justify-center gap-12 opacity-30 grayscale items-center py-8 border-t border-slate-50">
+        <div className="flex items-center gap-2 font-black text-xs tracking-widest"><ICONS.Zap className="w-5 h-5"/> SSL SECURE</div>
+        <div className="flex items-center gap-2 font-black text-xs tracking-widest"><ICONS.Cpu className="w-5 h-5"/> INSTANT DEPLOY</div>
+        <div className="flex items-center gap-2 font-black text-xs tracking-widest"><ICONS.Layers className="w-5 h-5"/> STRIPE VERIFIED</div>
+        <div className="flex items-center gap-2 font-black text-xs tracking-widest"><ICONS.TrendingUp className="w-5 h-5"/> LOGIC UPDATES</div>
       </div>
 
-      {/* Simulated Stripe Checkout Overlay */}
-      {showCheckout && (
-        <div className="fixed inset-0 z-[100] bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-300">
-          <div className="bg-white w-full max-w-4xl rounded-[2.5rem] shadow-[0_0_100px_rgba(0,0,0,0.2)] overflow-hidden flex flex-col md:flex-row h-[600px] animate-in slide-in-from-bottom-8 duration-500">
-            {/* Stripe Brand Sidebar */}
-            <div className="w-full md:w-5/12 bg-[#635BFF] p-12 text-white flex flex-col">
-              <div className="flex items-center gap-2 mb-12 opacity-80">
-                <div className="w-6 h-6 bg-white rounded-md flex items-center justify-center">
-                  <span className="text-[#635BFF] font-black text-xs">4</span>
-                </div>
-                <span className="font-bold tracking-tight">444 Productivity</span>
-              </div>
-              <div className="mb-4 text-white/60 font-bold uppercase tracking-widest text-xs">Subscribe to {processingTier || 'Architect'}</div>
-              <div className="text-5xl font-black mb-8">$99.00</div>
-              <div className="space-y-4 flex-grow">
-                <div className="flex justify-between items-center text-sm">
-                  <span className="opacity-70">444 Framework License</span>
-                  <span>$99.00</span>
-                </div>
-                <div className="flex justify-between items-center text-sm pb-4 border-b border-white/10">
-                  <span className="opacity-70">Tax</span>
-                  <span>$0.00</span>
-                </div>
-                <div className="flex justify-between items-center font-bold pt-2">
-                  <span>Total Due</span>
-                  <span>$99.00</span>
-                </div>
-              </div>
-              <div className="mt-auto flex items-center gap-2 opacity-60 text-xs">
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd"></path></svg>
-                <span>Powered by <span className="font-black">Stripe</span></span>
+      {/* Redirection Overlay */}
+      {redirecting && (
+        <div className="fixed inset-0 z-[120] bg-white flex flex-col items-center justify-center p-8">
+          <div className="max-w-md w-full text-center">
+            <div className="mb-10 flex justify-center">
+              <div className="w-16 h-16 bg-[#635BFF] rounded-2xl flex items-center justify-center animate-pulse shadow-xl shadow-indigo-100">
+                <ICONS.Zap className="w-8 h-8 text-white" />
               </div>
             </div>
-            {/* Payment Info */}
-            <div className="flex-grow p-12 overflow-y-auto">
-              <button 
-                onClick={() => setShowCheckout(false)}
-                className="absolute top-6 right-6 text-slate-400 hover:text-slate-600"
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l18 18"></path></svg>
+            <h2 className="text-2xl font-black text-slate-900 mb-2 tracking-tight">Redirecting to Stripe</h2>
+            <div className="font-mono text-[9px] text-blue-600 uppercase tracking-[0.3em] mb-8 bg-blue-50 py-3 px-6 rounded-xl border border-blue-100">
+              {redirectStatus}
+            </div>
+            <div className="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+              <div className="bg-[#635BFF] h-full animate-[progress_3s_linear]"></div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Stripe Checkout Mock */}
+      {showCheckout && selectedTier && (
+        <div className="fixed inset-0 z-[110] bg-slate-900/40 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="bg-white w-full max-w-4xl rounded-[2rem] shadow-2xl overflow-hidden flex flex-col md:flex-row h-[580px] animate-in zoom-in-95 duration-500">
+            <div className="w-full md:w-5/12 bg-[#635BFF] p-10 text-white flex flex-col relative overflow-hidden">
+              <div className="text-[9px] font-black uppercase tracking-widest opacity-50 mb-3 relative z-10">Order Summary</div>
+              <div className="text-3xl font-black mb-6 relative z-10">${selectedTier.price}.00</div>
+              <div className="flex-grow space-y-3 text-xs font-bold opacity-80 relative z-10">
+                <div className="flex justify-between"><span>{selectedTier.name} System License</span><span>${selectedTier.price}.00</span></div>
+                <div className="flex justify-between border-t border-white/20 pt-3"><span>Total Due</span><span>${selectedTier.price}.00</span></div>
+              </div>
+              <div className="mt-auto flex items-center gap-2 text-[10px] font-black opacity-60 uppercase relative z-10">
+                <ICONS.Zap className="w-3.5 h-3.5" /> Powered by Stripe
+              </div>
+            </div>
+            <div className="flex-grow p-10 relative overflow-y-auto">
+              <button onClick={() => setShowCheckout(false)} className="absolute top-6 right-6 text-slate-400 hover:text-slate-900 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
               </button>
-              <h3 className="text-2xl font-black mb-8 text-slate-900 tracking-tight">Pay with card</h3>
-              <div className="space-y-6">
-                <div>
-                  <label className="block text-sm font-bold text-slate-500 mb-2">Email address</label>
-                  <input type="email" placeholder="architect@444.logic" className="w-full border border-slate-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#635BFF] transition-all" />
+              <h3 className="text-xl font-black mb-8 tracking-tight">Payment Protocol</h3>
+              <div className="space-y-5">
+                <div className="space-y-1.5">
+                  <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Email Vector</label>
+                  <input type="email" placeholder="architect@node.444" className="w-full bg-slate-50 border border-slate-100 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-[#635BFF] outline-none transition-all" />
                 </div>
-                <div>
-                  <label className="block text-sm font-bold text-slate-500 mb-2">Card information</label>
-                  <div className="border border-slate-200 rounded-lg overflow-hidden">
-                    <input type="text" placeholder="1234 5678 1234 5678" className="w-full px-4 py-3 border-b border-slate-200 focus:outline-none" />
+                <div className="space-y-1.5">
+                  <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Card Details</label>
+                  <div className="border border-slate-100 rounded-lg overflow-hidden shadow-sm">
+                    <input type="text" placeholder="Card Number" className="w-full bg-slate-50 p-3.5 text-sm border-b border-slate-100 outline-none focus:bg-white transition-colors" />
                     <div className="flex">
-                      <input type="text" placeholder="MM / YY" className="w-1/2 px-4 py-3 border-r border-slate-200 focus:outline-none" />
-                      <input type="text" placeholder="CVC" className="w-1/2 px-4 py-3 focus:outline-none" />
+                      <input type="text" placeholder="MM / YY" className="w-1/2 bg-slate-50 p-3.5 text-sm border-r border-slate-100 outline-none focus:bg-white transition-colors" />
+                      <input type="text" placeholder="CVC" className="w-1/2 bg-slate-50 p-3.5 text-sm outline-none focus:bg-white transition-colors" />
                     </div>
                   </div>
                 </div>
-                <div>
-                  <label className="block text-sm font-bold text-slate-500 mb-2">Country or region</label>
-                  <select className="w-full border border-slate-200 rounded-lg px-4 py-3 bg-white focus:outline-none focus:ring-2 focus:ring-[#635BFF]">
-                    <option>United States</option>
-                    <option>United Kingdom</option>
-                    <option>Germany</option>
-                    <option>Japan</option>
-                  </select>
-                </div>
-                <button className="w-full bg-[#635BFF] text-white py-4 rounded-lg font-bold text-lg hover:brightness-110 transition-all shadow-lg shadow-indigo-200">
-                  Pay $99.00
+                <button className="w-full bg-[#635BFF] text-white py-4 rounded-xl font-black text-base shadow-lg shadow-indigo-100 hover:brightness-110 active:scale-[0.98] transition-all">
+                  Pay ${selectedTier.price}.00
                 </button>
-                <p className="text-[10px] text-slate-400 text-center leading-relaxed">
-                  By confirming your payment, you allow 444 Productivity to charge your card for this payment and future payments in accordance with their terms.
-                </p>
               </div>
             </div>
           </div>
         </div>
       )}
+      <style>{`@keyframes progress { 0% { width: 0%; } 100% { width: 100%; } }`}</style>
     </div>
   );
 };

@@ -10,251 +10,183 @@ interface HomePageProps {
 
 const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
   const [heroImage, setHeroImage] = useState<string | null>(null);
-  const [featureImages, setFeatureImages] = useState<(string | null)[]>([null, null, null]);
   const [scheduleInput, setScheduleInput] = useState('');
   const [auditResult, setAuditResult] = useState<AuditResult | null>(null);
   const [isAuditing, setIsAuditing] = useState(false);
-  const [logs, setLogs] = useState<string[]>(["Initializing 444 Protocol...", "Loading AGI nodes...", "Awaiting user input..."]);
+  const [logs, setLogs] = useState<string[]>(["Initializing 444 Protocol...", "Awaiting user input..."]);
   const logEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     let mounted = true;
-    const loadImages = async () => {
-      const hero = await generateProductivityImage("minimalist office space holographic interfaces", "hero");
+    const loadHero = async () => {
+      const hero = await generateProductivityImage("ultra-minimalist futuristic white workspace holographic interface", "hero");
       if (mounted) setHeroImage(hero);
-      
-      const prompts = [
-        { p: "neural network minimalist", k: "ai" },
-        { p: "futuristic clock blue", k: "time" },
-        { p: "clean digital nomad workspace", k: "focus" }
-      ];
-      
-      for (let i = 0; i < prompts.length; i++) {
-        // High delay to respect free tier
-        await new Promise(r => setTimeout(r, 5000));
-        const img = await generateProductivityImage(prompts[i].p, prompts[i].k);
-        if (mounted) setFeatureImages(prev => {
-          const next = [...prev]; next[i] = img; return next;
-        });
-      }
     };
-    loadImages();
+    loadHero();
 
     const logInterval = setInterval(() => {
-      const isBlocked = !!localStorage.getItem('444_system_quota_blocked_until');
-      const newLogs = isBlocked ? [
-        "Network Congestion Detected",
-        "Switching to Local Cache Protocol",
-        "Syncing Offline Assets...",
-        "Optimizing Delta Latency",
-        "AGI Node in Standby Mode"
-      ] : [
-        `Processing neural loop ${Math.floor(Math.random()*9999)}...`,
-        `Optimizing delta time: ${Math.random().toFixed(4)}ms`,
-        `AGI Agent ${Math.floor(Math.random()*9)} active`,
-        `Memory sync complete`,
-        `Scaling horizontal nodes...`
-      ];
-      setLogs(prev => [...prev.slice(-8), newLogs[Math.floor(Math.random()*newLogs.length)]]);
-    }, 4000);
+      const msgs = ["Optimizing delta...", "Neural sync active", "Caching vector data", "Syncing AGI node", "Encryption verified"];
+      setLogs(prev => [...prev.slice(-5), msgs[Math.floor(Math.random()*msgs.length)]]);
+    }, 3000);
 
-    return () => { 
-      mounted = false; 
-      clearInterval(logInterval);
-    };
+    return () => { mounted = false; clearInterval(logInterval); };
   }, []);
-
-  useEffect(() => {
-    logEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [logs]);
 
   const handleAudit = async () => {
     if (!scheduleInput.trim()) return;
     setIsAuditing(true);
     setAuditResult(null);
-    setLogs(prev => [...prev, ">> Starting deep schedule audit...", ">> Analyzing cognitive load..."]);
     const result = await analyzeSchedule(scheduleInput);
     setAuditResult(result);
     setIsAuditing(false);
-    setLogs(prev => [...prev, ">> Audit complete. Calibrating recommendations."]);
   };
 
-  const icons = [
-    { icon: <ICONS.Zap className="w-8 h-8" />, label: "Peak Performance", desc: "Unlock flow states" },
-    { icon: <ICONS.Cpu className="w-8 h-8" />, label: "AI Integration", desc: "Offload to AGI agents" },
-    { icon: <ICONS.Layers className="w-8 h-8" />, label: "Modular Systems", desc: "Scalable stacks" },
-    { icon: <ICONS.TrendingUp className="w-8 h-8" />, label: "Growth Engine", desc: "Exponential ROI" },
+  const curriculum = [
+    { title: "Phase 01: The Logic Layer", desc: "Setting up your digital node and faceless identity." },
+    { title: "Phase 02: Neural Automation", desc: "Using AGI to offload 90% of cognitive bandwidth." },
+    { title: "Phase 03: The 444 Matrix", desc: "Our proprietary daily task scheduling algorithm." },
+    { title: "Phase 04: Horizontal Expansion", desc: "Scaling systems to multiple passive streams." }
   ];
 
   return (
     <div className="animate-in fade-in duration-1000">
-      <section className="relative overflow-hidden pt-12 pb-24 lg:pt-24 lg:pb-32">
-        <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <div className="text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-600 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest mb-6">
-              <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
-              System v2.5.AGI Live
+      {/* Hero Section */}
+      <section className="relative pt-12 pb-20 overflow-hidden bg-white">
+        <div className="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-12 items-center">
+          <div className="relative z-10">
+            <div className="inline-block px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-[9px] font-black uppercase tracking-widest mb-4">
+              Official v2.5 Protocol
             </div>
-            <h1 className="text-5xl lg:text-7xl font-black text-slate-900 leading-tight mb-6 tracking-tighter">
-              The <span className="text-blue-600">444</span> Paradigm
+            <h1 className="text-5xl lg:text-6xl font-black text-slate-900 leading-tight mb-6 tracking-tighter">
+              Productivity <br/><span className="text-blue-600">is Logic.</span>
             </h1>
-            <p className="text-xl text-slate-600 mb-10 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-              A faceless, high-efficiency framework leveraging deep learning to automate your digital existence and maximize cognitive output.
+            <p className="text-lg text-slate-500 mb-8 max-w-lg leading-relaxed font-medium">
+              The 444 Framework is the world's first faceless, AGI-powered system for digital architects.
             </p>
-            <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
-              <button onClick={() => onNavigate(PageType.STORE)} className="bg-blue-600 text-white px-10 py-5 rounded-full text-lg font-bold hover:bg-blue-700 transition-all shadow-xl shadow-blue-200">
-                Get E-Book $29.99
+            <div className="flex flex-col sm:flex-row gap-4">
+              <button onClick={() => onNavigate(PageType.STORE)} className="bg-slate-900 text-white px-8 py-4 rounded-xl text-base font-black hover:bg-blue-600 transition-all shadow-xl shadow-blue-200/10 active:scale-95">
+                Download The Blueprint
               </button>
-              <button onClick={() => onNavigate(PageType.MARKETPLACE)} className="bg-white border-2 border-slate-900 text-slate-900 px-10 py-5 rounded-full text-lg font-bold hover:bg-slate-50 transition-all">
-                Browse Marketplace
+              <button onClick={() => onNavigate(PageType.MARKETPLACE)} className="bg-white border-2 border-slate-100 text-slate-600 px-8 py-4 rounded-xl text-base font-bold hover:bg-slate-50 transition-all">
+                Access Modules
               </button>
             </div>
           </div>
-          <div className="relative group">
-            <div className="absolute -inset-4 bg-blue-600/10 rounded-[3rem] blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            <div className="relative aspect-[4/3] rounded-[3rem] overflow-hidden shadow-2xl border border-slate-100 bg-slate-50 transition-transform group-hover:scale-[1.01] duration-700">
+          <div className="relative">
+            <div className="aspect-[4/3] bg-slate-100 rounded-[2.5rem] overflow-hidden shadow-xl border border-white relative group">
               {heroImage ? (
-                <img src={heroImage} className="w-full h-full object-cover" alt="System Hero" />
+                <img src={heroImage} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[20s]" alt="" />
               ) : (
-                <div className="w-full h-full flex flex-col items-center justify-center space-y-4 animate-pulse">
-                  <ICONS.Cpu className="w-12 h-12 text-blue-200" />
-                  <span className="text-slate-300 font-mono text-[10px] uppercase tracking-widest">Synthesizing Visual_Asset...</span>
-                </div>
+                <div className="w-full h-full flex items-center justify-center animate-pulse"><ICONS.Cpu className="w-10 h-10 text-slate-200" /></div>
               )}
-              {/* Overlay Terminal */}
-              <div className="absolute bottom-6 right-6 w-64 bg-slate-900/80 backdrop-blur-md rounded-2xl p-4 border border-white/10 shadow-2xl overflow-hidden hidden md:block">
-                <div className="flex items-center gap-2 mb-2 border-b border-white/10 pb-2">
-                  <div className="w-2 h-2 rounded-full bg-red-500"></div>
-                  <div className="w-2 h-2 rounded-full bg-yellow-500"></div>
-                  <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                  <span className="text-[8px] font-mono text-slate-400 ml-auto uppercase tracking-tighter">System Console</span>
+              <div className="absolute bottom-6 left-6 right-6 p-4 bg-slate-900/90 backdrop-blur-xl rounded-2xl border border-white/10 hidden md:block">
+                <div className="font-mono text-[8px] text-blue-400 space-y-1">
+                  {logs.map((l, i) => <div key={i}>> {l}</div>)}
                 </div>
-                <div className="space-y-1 h-32 overflow-hidden font-mono text-[9px] text-blue-400">
-                  {logs.map((log, i) => (
-                    <div key={i} className="animate-in slide-in-from-left-2 fade-in duration-300">
-                      <span className="text-slate-600 mr-2">[{new Date().toLocaleTimeString()}]</span>
-                      {log}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Trust & Verification Strip */}
+      <section className="py-8 border-y border-slate-50 bg-white">
+        <div className="max-w-7xl mx-auto px-4 flex flex-wrap justify-center gap-10 opacity-40 grayscale items-center">
+           <div className="flex items-center gap-2 font-black text-[10px] tracking-widest"><ICONS.Zap className="w-3.5 h-3.5"/> SSL ENCRYPTED</div>
+           <div className="flex items-center gap-2 font-black text-[10px] tracking-widest"><ICONS.Cpu className="w-3.5 h-3.5"/> AGI VERIFIED</div>
+           <div className="flex items-center gap-2 font-black text-[10px] tracking-widest"><ICONS.Layers className="w-3.5 h-3.5"/> NODE SECURE</div>
+           <div className="flex items-center gap-2 font-black text-[10px] tracking-widest"><ICONS.TrendingUp className="w-3.5 h-3.5"/> HIGH-YIELD LOGIC</div>
+        </div>
+      </section>
+
+      {/* Curriculum Section */}
+      <section className="py-20 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-black mb-3 tracking-tight">The 444 Syllabus</h2>
+            <p className="text-slate-500 text-sm">Inside the 250-page digital architect handbook.</p>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {curriculum.map((item, i) => (
+              <div key={i} className="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm hover:shadow-lg transition-all">
+                <div className="text-blue-600 font-black text-3xl mb-4">0{i+1}</div>
+                <h3 className="text-lg font-black mb-2 tracking-tight">{item.title}</h3>
+                <p className="text-xs text-slate-500 leading-relaxed">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Direct Conversion Section */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="bg-slate-900 rounded-[3rem] p-10 lg:p-16 text-white relative overflow-hidden">
+             <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
+                <ICONS.TrendingUp className="w-64 h-64" />
+             </div>
+             <div className="relative z-10 grid lg:grid-cols-2 gap-12 items-center">
+                <div>
+                  <h2 className="text-4xl lg:text-5xl font-black mb-6 leading-tight tracking-tight">Ready to integrate the <span className="text-blue-500">Source Code?</span></h2>
+                  <p className="text-lg text-slate-400 mb-8 leading-relaxed">
+                    Stop building "personal brands." Start building autonomous logic nodes. The Blueprint is your manual for the new digital economy.
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <button onClick={() => onNavigate(PageType.STORE)} className="bg-blue-600 text-white px-8 py-5 rounded-xl text-lg font-black hover:bg-white hover:text-blue-600 transition-all shadow-xl">
+                      Access Blueprint — $29.99
+                    </button>
+                    <div className="flex items-center gap-3 text-slate-500">
+                      <div className="flex -space-x-1.5">
+                        {[1,2,3].map(i => <div key={i} className="w-7 h-7 rounded-full border-2 border-slate-900 bg-slate-800 flex items-center justify-center text-[9px] font-bold">A{i}</div>)}
+                      </div>
+                      <span className="text-xs font-bold">+44k Architects</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  {[
+                    {h: "Instant", p: "Deployment"},
+                    {h: "Lifetime", p: "Logic Updates"},
+                    {h: "100%", p: "Faceless Path"},
+                    {h: "AGI", p: "Native Hook"}
+                  ].map((item, i) => (
+                    <div key={i} className="bg-white/5 border border-white/10 p-6 rounded-2xl backdrop-blur-sm">
+                      <h4 className="text-2xl font-black mb-1 text-white">{item.h}</h4>
+                      <p className="text-[9px] text-slate-400 uppercase tracking-widest font-bold">{item.p}</p>
                     </div>
                   ))}
-                  <div ref={logEndRef} />
                 </div>
-              </div>
-            </div>
+             </div>
           </div>
         </div>
       </section>
 
-      {/* 444 System Audit Interactive Tool */}
-      <section className="py-24 bg-white">
-        <div className="max-w-5xl mx-auto px-4">
-          <div className="bg-slate-900 rounded-[4rem] p-8 md:p-20 text-white shadow-2xl relative overflow-hidden border border-blue-900/20">
-            <div className="absolute top-0 right-0 p-8 opacity-5"><ICONS.Cpu className="w-96 h-96" /></div>
-            <div className="relative z-10">
-              <div className="flex items-center gap-4 mb-8">
-                <div className="w-16 h-16 bg-blue-600 rounded-3xl flex items-center justify-center shadow-2xl shadow-blue-500/20">
-                  <ICONS.Zap className="w-8 h-8" />
-                </div>
-                <div>
-                  <h2 className="text-4xl font-black tracking-tight">System Audit</h2>
-                  <p className="text-blue-400 text-xs font-mono uppercase tracking-[0.3em]">AI-Driven Efficiency Calibration</p>
-                </div>
-              </div>
-              
-              <p className="text-slate-400 text-lg mb-12 leading-relaxed max-w-2xl">
-                Paste your current hourly sequence or daily task list. Our AGI model will detect neural leaks and provide optimization vectors.
-              </p>
-              
-              <div className="grid grid-cols-1 lg:grid-cols-1 gap-8">
-                <div className="space-y-6">
-                  <div className="relative group">
-                    <div className="absolute -inset-0.5 bg-blue-600/20 rounded-3xl opacity-0 group-focus-within:opacity-100 transition-opacity blur-sm"></div>
-                    <textarea 
-                      value={scheduleInput}
-                      onChange={(e) => setScheduleInput(e.target.value)}
-                      placeholder="08:00 - Wake up / Emails&#10;09:30 - Deep work phase A&#10;11:00 - Meeting protocol..."
-                      className="relative w-full h-48 bg-slate-800 border border-slate-700 rounded-3xl p-8 text-blue-100 placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-blue-500 font-mono text-sm leading-relaxed"
-                    />
+      {/* Social Proof Wall */}
+      <section className="py-20 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <h2 className="text-3xl lg:text-4xl font-black mb-6 leading-tight">Deployed by over <span className="text-blue-600">44,000</span> Architects worldwide.</h2>
+              <div className="space-y-4">
+                {[
+                  { name: "Agent X", quote: "Removed 12 hours of manual labor per week using the Neural Sync scripts." },
+                  { name: "Architect 09", quote: "The only framework that actually understands faceless automation." }
+                ].map((t, i) => (
+                  <div key={i} className="flex gap-4 p-6 bg-white rounded-2xl border-l-4 border-blue-600 shadow-sm">
+                    <p className="text-base text-slate-700 italic">"{t.quote}"</p>
                   </div>
-                  <button 
-                    onClick={handleAudit}
-                    disabled={isAuditing || !scheduleInput}
-                    className="w-full bg-blue-600 py-6 rounded-2xl font-black text-xl hover:bg-blue-700 transition-all disabled:opacity-50 flex items-center justify-center gap-4 shadow-xl shadow-blue-500/10 active:scale-[0.98]"
-                  >
-                    {isAuditing ? (
-                      <>
-                        <div className="w-6 h-6 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
-                        <span>Processing Neural Data...</span>
-                      </>
-                    ) : (
-                      <>
-                        <ICONS.Zap className="w-6 h-6" />
-                        <span>Initiate System Audit</span>
-                      </>
-                    )}
-                  </button>
-                </div>
-
-                {auditResult && (
-                  <div className="mt-12 space-y-8 animate-in slide-in-from-bottom-8 duration-700">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                      <div className="bg-gradient-to-br from-slate-800 to-slate-900 p-8 rounded-3xl border border-blue-900/30">
-                        <div className="flex items-center justify-between mb-6">
-                          <div className="text-[10px] text-blue-500 font-black uppercase tracking-[0.2em]">Efficiency Coefficient</div>
-                          <div className="px-3 py-1 bg-blue-600/10 text-blue-400 rounded-full text-[10px] font-black uppercase tracking-widest">Live Score</div>
-                        </div>
-                        <div className="flex items-baseline gap-2 mb-4">
-                          <span className="text-7xl font-black text-white">{auditResult.efficiencyScore}</span>
-                          <span className="text-2xl font-bold text-slate-500">/ 100</span>
-                        </div>
-                        <p className="text-sm text-slate-400 italic leading-relaxed">"{auditResult.optimizingThought}"</p>
-                      </div>
-                      
-                      <div className="space-y-6">
-                        <div className="bg-slate-800/50 p-6 rounded-2xl border border-red-900/20">
-                          <h4 className="text-[10px] font-black text-red-500 uppercase tracking-widest mb-4 flex items-center gap-2">
-                            <span className="w-1.5 h-1.5 rounded-full bg-red-500"></span> Critical Bottlenecks
-                          </h4>
-                          <ul className="space-y-3">
-                            {auditResult.bottlenecks.map((b, i) => (
-                              <li key={i} className="flex gap-3 text-sm text-slate-300">
-                                <span className="text-red-500 font-black opacity-50">#0{i+1}</span> {b}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                        <div className="bg-slate-800/50 p-6 rounded-2xl border border-blue-900/20">
-                          <h4 className="text-[10px] font-black text-blue-500 uppercase tracking-widest mb-4 flex items-center gap-2">
-                            <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span> Optimized Vectors
-                          </h4>
-                          <ul className="space-y-3">
-                            {auditResult.recommendations.map((r, i) => (
-                              <li key={i} className="flex gap-3 text-sm text-slate-300">
-                                <span className="text-blue-500 font-black opacity-50">>>></span> {r}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
+                ))}
               </div>
+            </div>
+            <div className="bg-slate-900 rounded-[3rem] p-10 text-white relative group">
+              <ICONS.Zap className="w-10 h-10 text-blue-500 mb-6" />
+              <h3 className="text-2xl font-black mb-4">Is your node ready?</h3>
+              <p className="text-sm text-slate-400 mb-8 leading-relaxed">Stop operating on legacy human habits. Switch to the logical protocol today.</p>
+              <button onClick={() => onNavigate(PageType.STORE)} className="w-full bg-blue-600 py-5 rounded-xl font-black text-lg hover:bg-white hover:text-blue-600 transition-all">
+                Download Now — $29.99
+              </button>
             </div>
           </div>
-        </div>
-      </section>
-
-      <section className="bg-slate-50 py-24">
-        <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {icons.map((item, i) => (
-            <div key={i} className="bg-white p-12 rounded-[3rem] shadow-sm border border-slate-100 hover:shadow-2xl transition-all group cursor-pointer" onClick={() => onNavigate(PageType.ABOUT)}>
-              <div className="bg-blue-50 w-20 h-20 rounded-3xl flex items-center justify-center text-blue-600 mb-10 group-hover:bg-blue-600 group-hover:text-white transition-all duration-500">
-                {item.icon}
-              </div>
-              <h3 className="text-2xl font-black text-slate-900 mb-4 tracking-tight">{item.label}</h3>
-              <p className="text-slate-500 leading-relaxed text-sm">{item.desc}</p>
-            </div>
-          ))}
         </div>
       </section>
     </div>
