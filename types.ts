@@ -18,6 +18,13 @@ export interface BlogPost {
   tags: string[];
 }
 
+export interface AuditResult {
+  efficiencyScore: number;
+  bottlenecks: string[];
+  recommendations: string[];
+  optimizingThought: string;
+}
+
 export enum PageType {
   HOME = 'home',
   MARKETPLACE = 'marketplace',

@@ -1,78 +1,101 @@
 
 import React from 'react';
-import { ICONS } from '../constants';
+import { ICONS } from '../constants.tsx';
 
 const AboutPage: React.FC = () => {
   return (
-    <div className="max-w-4xl mx-auto px-4 py-12 lg:py-24">
-      <div className="text-center mb-20">
-        <h1 className="text-5xl font-black text-slate-900 mb-6">About 444</h1>
-        <div className="w-24 h-2 bg-blue-600 mx-auto rounded-full mb-8"></div>
-        <p className="text-xl text-slate-500 leading-relaxed">
-          The world's first faceless productivity collective powered by AGI and deep learning.
+    <div className="max-w-7xl mx-auto px-4 py-12 lg:py-24">
+      <div className="text-center mb-32">
+        <div className="inline-flex items-center gap-2 bg-slate-900 text-blue-400 px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-[0.3em] mb-8 border border-blue-900/30">
+          Core Protocol Definition
+        </div>
+        <h1 className="text-6xl lg:text-8xl font-black text-slate-900 mb-8 tracking-tighter">
+          Faceless <span className="text-blue-600">Productivity.</span>
+        </h1>
+        <p className="text-2xl text-slate-500 max-w-3xl mx-auto leading-relaxed font-medium">
+          The 444 System is a purely logical framework designed to decouple output from identity using AGI.
         </p>
       </div>
 
-      <div className="space-y-24">
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          <div>
-            <h2 className="text-3xl font-black text-slate-900 mb-6">Our Philosophy</h2>
-            <p className="text-slate-600 leading-relaxed mb-6">
-              In a world obsessed with personal branding, 444 focuses on pure output. We believe that true efficiency is anonymous. Our systems are designed to operate without a "face," leveraging the latest LLM technologies to automate the mundane and amplify the strategic.
+      <div className="space-y-32">
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+          <div className="space-y-8">
+            <h2 className="text-4xl font-black text-slate-900 tracking-tight leading-tight">The End of the Personal Brand.</h2>
+            <p className="text-lg text-slate-600 leading-relaxed">
+              In a digital landscape obsessed with influencers, 444 prioritizes the architect. We believe that true efficiency is anonymous. Our framework leverages deep learning LLM agents to build automated income and output streams that operate 24/7 without a human face.
             </p>
-            <p className="text-slate-600 leading-relaxed">
-              We don't build influencers. We build architects of autonomous systems.
-            </p>
-          </div>
-          <div className="bg-slate-50 p-12 rounded-[3rem] flex items-center justify-center">
-            <ICONS.Layers className="w-32 h-32 text-blue-600 opacity-20" />
-          </div>
-        </section>
-
-        <section className="bg-blue-600 text-white p-12 rounded-[3rem] shadow-2xl shadow-blue-100">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
-            <div>
-              <div className="text-4xl font-black mb-2">100%</div>
-              <div className="text-sm text-blue-100 uppercase font-bold tracking-widest">Autonomous</div>
-            </div>
-            <div>
-              <div className="text-4xl font-black mb-2">444+</div>
-              <div className="text-sm text-blue-100 uppercase font-bold tracking-widest">Logic Modules</div>
-            </div>
-            <div>
-              <div className="text-4xl font-black mb-2">∞</div>
-              <div className="text-sm text-blue-100 uppercase font-bold tracking-widest">Scalability</div>
-            </div>
-          </div>
-        </section>
-
-        <section>
-          <h2 className="text-3xl font-black text-slate-900 mb-12 text-center">The Framework Pillars</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { title: "Deep Learning", desc: "Every workflow is optimized through iterative neural feedback loops." },
-              { title: "AGI Integration", desc: "Direct API hooks into upcoming general intelligence models." },
-              { title: "Faceless Growth", desc: "Build massive systems without ever showing your face or identity." }
-            ].map((pillar, i) => (
-              <div key={i} className="bg-white border border-slate-100 p-8 rounded-3xl shadow-sm">
-                <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center mb-6 font-black">
-                  0{i + 1}
-                </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-4">{pillar.title}</h3>
-                <p className="text-slate-500 text-sm leading-relaxed">{pillar.desc}</p>
+            <div className="flex gap-6">
+              <div className="flex-1 p-6 bg-slate-50 rounded-3xl border border-slate-100">
+                <div className="text-blue-600 font-black text-3xl mb-2">0%</div>
+                <div className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Publicity Required</div>
               </div>
-            ))}
+              <div className="flex-1 p-6 bg-slate-50 rounded-3xl border border-slate-100">
+                <div className="text-blue-600 font-black text-3xl mb-2">100%</div>
+                <div className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Logical Autonomy</div>
+              </div>
+            </div>
+          </div>
+          <div className="relative aspect-square bg-slate-900 rounded-[4rem] p-12 overflow-hidden shadow-2xl">
+            <div className="absolute inset-0 opacity-10 flex items-center justify-center">
+              <ICONS.Cpu className="w-[150%] h-[150%] text-blue-500 animate-spin-slow" style={{ animationDuration: '60s' }} />
+            </div>
+            <div className="relative z-10 h-full flex flex-col justify-center space-y-8">
+              {[
+                { label: "Data Input", val: "Continuous Feed" },
+                { label: "Logic Layer", val: "Gemini 3 Pro Integration" },
+                { label: "Output Vector", val: "Autonomous Assets" }
+              ].map((item, i) => (
+                <div key={i} className="flex items-center gap-6 group">
+                  <div className="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center text-white font-black group-hover:scale-110 transition-transform">
+                    {i+1}
+                  </div>
+                  <div>
+                    <div className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">{item.label}</div>
+                    <div className="text-white font-bold text-xl">{item.val}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
-        <section className="text-center pt-12">
-          <h2 className="text-2xl font-black text-slate-900 mb-6">Join the Paradigm</h2>
-          <p className="text-slate-500 mb-10 max-w-xl mx-auto">
-            Ready to stop working harder and start working autonomously?
+        <section className="bg-slate-900 text-white p-12 lg:p-24 rounded-[4rem] shadow-2xl relative overflow-hidden">
+          <div className="absolute bottom-0 right-0 p-12 opacity-5"><ICONS.Zap className="w-96 h-96" /></div>
+          <div className="max-w-3xl">
+            <h2 className="text-4xl lg:text-5xl font-black mb-10 tracking-tight">System Architecture Pillars</h2>
+            <div className="space-y-12">
+              {[
+                { title: "Iterative Neural Loops", desc: "Every task is optimized through 444 feedback cycles, ensuring peak cognitive ROI.", icon: <ICONS.Layers /> },
+                { title: "AGI Agent Hub", desc: "Native hooks into the world's most advanced reasoning models for decision offloading.", icon: <ICONS.Cpu /> },
+                { title: "Horizontal Scaling", desc: "Built to expand. Your systems grow exponentially while your manual input decreases.", icon: <ICONS.TrendingUp /> }
+              ].map((pillar, i) => (
+                <div key={i} className="flex gap-8">
+                  <div className="w-14 h-14 bg-white/10 rounded-2xl flex-shrink-0 flex items-center justify-center text-blue-400">
+                    {pillar.icon}
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-black mb-3">{pillar.title}</h3>
+                    <p className="text-slate-400 leading-relaxed text-lg">{pillar.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="text-center py-12">
+          <h2 className="text-4xl font-black text-slate-900 mb-6 tracking-tight">Access the Source Code.</h2>
+          <p className="text-xl text-slate-500 mb-12 max-w-2xl mx-auto leading-relaxed">
+            Join the 44,000+ architects currently running the framework globally. No face. No limits. Just output.
           </p>
-          <button className="bg-slate-900 text-white px-10 py-4 rounded-full font-bold hover:bg-blue-600 transition-colors shadow-lg">
-            Download the Documentation
-          </button>
+          <div className="flex justify-center gap-4">
+            <button 
+              onClick={() => window.location.hash = 'store'}
+              className="bg-blue-600 text-white px-12 py-6 rounded-3xl font-black text-xl hover:bg-slate-900 transition-all shadow-2xl shadow-blue-500/20 active:scale-95"
+            >
+              Secure Lifetime License
+            </button>
+          </div>
         </section>
       </div>
     </div>
